@@ -5,13 +5,15 @@ const trace = x => {
   return x;
 };
 
+const compose = (...fn) => x => fn.reduceRight((res, f) => f(res), x);
+
 class CheckoutProductList {
   productsStoreKey = 'cart-products';
 
   constructor(parentElement) {
     let productListBox = document.createElement('div');
     productListBox.className = 'product-list-box';
-    
+
     let products = JSON.parse(localStorage.getItem(this.productsStoreKey));
     productListBox.append(...products.map(this.getProductHtml.bind(this)));
 
@@ -33,7 +35,7 @@ class CheckoutProductList {
     }
 
     let product = btn.closest('[data-product-id]');
-    
+
     if (!product) {
       return;
     }
